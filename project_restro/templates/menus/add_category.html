@@ -1,7 +1,7 @@
 {% extends "layouts/master.html" %}
 
 {% block title %}
-Menu | CREATE
+Category | CREATE
 {% endblock %}
 
 {% block content %}
@@ -9,7 +9,7 @@ Menu | CREATE
     <h1>{{ title }}</h1>
     <hr>
     <div class="card p-5">
-        <form action="{% url 'menu-add' %}" method="post">
+        <form action="{% url 'category-create' %}" >
             {% csrf_token %}
             {{ form.as_p }}
 

@@ -14,7 +14,7 @@ class Menu(models.Model):
     menu_title = models.CharField(max_length=200)
     category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
     menu_desc = models.CharField(max_length=200)
-    menu_img = models.FileField(upload_to="menu/images/")
+    menu_img = models.FileField(upload_to="menu/images/", blank=True)
     menu_ingredient = models.CharField(max_length=200)
     menu_price = models.FloatField()
 
