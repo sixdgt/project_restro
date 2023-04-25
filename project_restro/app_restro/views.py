@@ -1,9 +1,12 @@
 from django.shortcuts import render
 from .forms import CategoryCreateForm, MenuCreateForm
+from .models import Category, Menu
 
 # Create your views here.
 def menu_index(request):
-    return render(request, 'menus/index.html')
+    data = Menu.objects.all()
+    context = {"data": data}
+    return render(request, 'menus/index.html', context)
 
 def menu_add(request):
     menu_form = MenuCreateForm()
@@ -11,6 +14,35 @@ def menu_add(request):
         "form": menu_form,
         "title": "Menu Create Form"
     }
+
+    if request.method == "POST":
+        id = request.POST.get('category_id')
+        category_id = Category.objects.get(id=id)
+
+        # method one: non-argumented constructor
+        # data = Menu()
+        # data.menu_title = request.POST.get('menu_title')
+        # data.menu_desc = request.POST.get('menu_desc')
+        # data.menu_ingredient = request.POST.get('menu_ingredient')
+        # data.menu_price = request.POST.get('menu_price')
+        # data.category_id = category_id
+        # data.save()
+        
+        # method two: argumented constructor
+        # menu_title = request.POST.get('menu_title')
+        # menu_desc = request.POST.get('menu_desc')
+        # menu_ingredient = request.POST.get('menu_ingredient')
+        # menu_price = request.POST.get('menu_price')
+
+        # data = Menu(menu_title=menu_title, menu_desc=menu_desc,menu_ingredient=menu_ingredient,
+        #             menu_price=menu_price)
+        # data.save()
+
+        # method three: form object
+        data = MenuCreateForm(request.POST)
+        if data.is_valid():
+            data.save()
+
     return render(request, 'menus/create.html', context)
 
 def menu_edit(request):
