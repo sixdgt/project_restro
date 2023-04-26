@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import CategoryCreateForm, MenuCreateForm
 from .models import Category, Menu
 
@@ -45,11 +45,37 @@ def menu_add(request):
 
     return render(request, 'menus/create.html', context)
 
-def menu_edit(request):
-    return render(request, 'menus/edit.html')
+def menu_update(request):
+    if request.method == "POST":
+        id = request.POST.get('category_id')
+        category_id = Category.objects.get(id=id)
 
-def menu_show(request):
-    return render(request, 'menus/show.html')
+        data = Menu.objects.get(id=request.POST.get('id'))
+        data.menu_title = request.POST.get('menu_title')
+        data.menu_desc = request.POST.get('menu_desc')
+        data.menu_ingredient = request.POST.get('menu_ingredient')
+        data.menu_price = request.POST.get('menu_price')
+        data.category_id = category_id
+        data.save()
+
+        return redirect("menu-list")
+
+def menu_edit(request, id):
+    data = Menu.objects.get(id=id)
+    categories = Category.objects.all()
+    context = {"data": data, "categories": categories}
+    return render(request, 'menus/edit.html', context)
+
+def menu_show(request, id):
+    data = Menu.objects.get(id=id)
+    context = {"data": data}
+    return render(request, 'menus/show.html', context)
+
+def menu_delete(request, id):
+    data = Menu.objects.get(id=id)
+    data.delete()
+
+    return redirect("menu-list")
 
 # category views
 def category_create(request):
