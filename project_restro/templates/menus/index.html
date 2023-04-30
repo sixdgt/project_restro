@@ -6,6 +6,8 @@ Menu | INDEX
 
 {% block content %}
 <div class="container">
+    {% include 'partials/_message.html' %}
+    
     <h1>This is MENU Index Page</h1>
     <hr>
     <a href="{% url 'menu-add' %}" class="btn btn-secondary col-12 mb-3">Add New Menu</a>
