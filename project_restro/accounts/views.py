@@ -20,7 +20,7 @@ class RegistrationView(View):
                                         email=email, username=username)
         user.set_password(password)
         user.is_staff = False
-        user.is_active = False
+        user.is_active = True
         user.save()
         messages.success(request, "Registered Successfully..")
         return redirect("register")
