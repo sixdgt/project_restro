@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import auth
 from django.contrib import messages
+from django.core.mail import send_mail
 
 # Create your views here.
 class RegistrationView(View):
@@ -22,6 +23,13 @@ class RegistrationView(View):
         user.is_staff = False
         user.is_active = True
         user.save()
+        
+        send_mail(
+            'Account Creation',
+            'Your account has been created',
+            'sender email address',
+            [user.email]
+        )
         messages.success(request, "Registered Successfully..")
         return redirect("register")
 
