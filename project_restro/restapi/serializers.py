@@ -8,5 +8,5 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class MenuSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ("menu_title", "category_id", "menu_desc", "menu_price")
+        fields = ("menu_title", "category_id", "menu_desc", "menu_price", "menu_ingredient")
         model = Menu
